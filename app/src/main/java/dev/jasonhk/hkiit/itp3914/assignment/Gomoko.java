@@ -8,7 +8,7 @@ import javax.annotation.Nullable;
 public class Gomoko
 {
     /**
-     * The size of the Gomoko board.
+     * The size of the {@link GomokoBoard}.
      */
     private static final int BOARD_SIZE = 10;
 
@@ -18,7 +18,7 @@ public class Gomoko
     private static final int PIECES_TO_WIN = 4;
 
     /**
-     * The width needed to display a Gomoko piece.
+     * The width needed to display a {@link GomokoPiece}.
      */
     private static final int PIECE_WIDTH = Integer.toString(BOARD_SIZE - 1).length();
 
@@ -29,33 +29,40 @@ public class Gomoko
      */
     public static void main(String[] args)
     {
+        // The standard input scanner.
         var scanner = new Scanner(System.in);
 
+        // The Gomoko game board.
         var board = new GomokoBoard();
         board.printBoard();
 
         while (!board.isFull())
         {
+            // Announce the game turn.
             System.out.printf("Player %s's turn.%n", board.getCurrentPiece().getPiece());
 
+            // Receive inputs.
             System.out.print("Enter row and column (e.g., 0 1): ");
             int row = scanner.nextInt();
             int column = scanner.nextInt();
 
+            // Validate inputs, retry when invalid, otherwise place the piece.
             if (!board.isValidMove(row, column)) { continue; }
             GomokoPiece winner = board.placePiece(row, column);
 
+            // Print the Gomoko game board.
             board.printBoard();
 
+            // Print the winner/draw message.
             if (winner != null)
             {
                 System.out.printf("Player %s wins!%n", winner.getPiece());
-                break;
+                break; // Break out of the loop when the game was ended.
             }
             else if (board.isFull())
             {
                 System.out.println("It's a draw!");
-                break;
+                break; // This line is actually useless.
             }
         }
 
@@ -74,10 +81,19 @@ public class Gomoko
         /** White piece. */
         WHITE("2", 1);
 
+        /**
+         * The symbol representing the Gomoko piece.
+         */
         private final String piece;
 
+        /**
+         * The score for the Gomoko piece.
+         */
         private final int score;
 
+        /**
+         * The score when the pieces forms a consecutive line.
+         */
         private final int winningScore;
 
         private GomokoPiece(String piece, int score)
@@ -88,9 +104,7 @@ public class Gomoko
         }
 
         /**
-         * Retrieve the symbol representing the Gomoko piece.
-         * 
-         * @return The representing symbol.
+         * The symbol representing the Gomoko piece.
          */
         @Nonnull
         public String getPiece()
@@ -98,13 +112,22 @@ public class Gomoko
             return piece;
         }
 
+        /**
+         * The score for the Gomoko piece.
+         */
         public int getScore()
         {
             return score;
         }
 
+        /**
+         * Get the appropriate Gomoko piece from a total score.
+         *
+         * @param The total score.
+         * @return The Gomoko piece, {@code null} if no matches.
+         */
         @Nullable
-        public static GomokoPiece fromWinningScore(int score)
+        public static GomokoPiece fromTotalScore(int score)
         {
             if (score == BLACK.winningScore)
             {
@@ -126,16 +149,29 @@ public class Gomoko
      */
     private static class GomokoBoard
     {
+        /**
+         * The total cells count for the Gomoko game board.
+         */
         private static final int SIZE = BOARD_SIZE * BOARD_SIZE;
 
+        /**
+         * The Gomoko game board matrix.
+         */
         private GomokoPiece[][] board = new GomokoPiece[BOARD_SIZE][BOARD_SIZE];
 
+        /**
+         * The number of {@link GomokoPiece}s placed.
+         */
         private int placedCount = 0;
 
+        /**
+         * The next {@code GomokoPiece} to be placed.
+         */
         private GomokoPiece currentPiece = GomokoPiece.BLACK;
 
         public GomokoBoard()
         {
+            // Initialise the game board matrix.
             for (int i = 0; i < BOARD_SIZE; i++)
             {
                 for (int j = 0; j < BOARD_SIZE; j++)
@@ -145,6 +181,11 @@ public class Gomoko
             }
         }
 
+        /**
+         * Determine whether the Gomoko game board was filled completely.
+         * 
+         * @return {@code true} when filled completely, {@code false} otherwise.
+         */
         public boolean isFull()
         {
             if (placedCount > SIZE)
@@ -155,6 +196,11 @@ public class Gomoko
             return (placedCount == SIZE);
         }
 
+        /**
+         * Determine whether the move is valid of not. Print a message to standard error when invalid.
+         * 
+         * @return {@code true} when valid, {@code false} otherwise.
+         */
         public boolean isValidMove(int row, int column)
         {
             if (((row < 0) || (row >= BOARD_SIZE)) || ((column < 0) || (column >= BOARD_SIZE)))
@@ -173,11 +219,19 @@ public class Gomoko
             }
         }
 
+        /**
+         * The next {@code GomokoPiece} to be placed.
+         */
         public GomokoPiece getCurrentPiece()
         {
             return currentPiece;
         }
 
+        /**
+         * Place a Gomoko piece and check whether the move will ends the game.
+         * 
+         * @return The winning piece if the move ends the game, {@code null} otherwise.
+         */
         public GomokoPiece placePiece(int row, int column)
         {
             if (board[row][column] != GomokoPiece.EMPTY)
@@ -185,9 +239,11 @@ public class Gomoko
                 throw new IllegalArgumentException(String.format("board[%d][%d] was not empty.", row, column));
             }
 
+            // Place the Gomoko piece and switch the piece to be placed next.
             board[row][column] = currentPiece;
             currentPiece = (currentPiece == GomokoPiece.BLACK) ? GomokoPiece.WHITE : GomokoPiece.BLACK;
 
+            // Check every possible combinations that include this coordinate.
             for (int i = 0; i < PIECES_TO_WIN; i++)
             {
                 GomokoPiece winner;
@@ -197,11 +253,78 @@ public class Gomoko
 
                 winner = checkVerticalWinner(row - i, column);
                 if (winner != null) { return winner; }
+
+                winner = checkDiagonalLeftWinner(row - i, column + i);
+                if (winner != null) { return winner; }
+
+                winner = checkDiagonalRightWinner(row - i, column - i);
+                if (winner != null) { return winner; }
             }
 
             return null;
         }
 
+        @Nullable
+        private GomokoPiece checkHorizontalWinner(int row, int column)
+        {
+            if ((column < 0) || ((column + PIECES_TO_WIN - 1) >= BOARD_SIZE)) { return null; }
+
+            int score = 0;
+            for (int i = 0; i < PIECES_TO_WIN; i++)
+            {
+                score += board[row][column + i].getScore();
+            }
+
+            return GomokoPiece.fromTotalScore(score);
+        }
+
+        @Nullable
+        private GomokoPiece checkVerticalWinner(int row, int column)
+        {
+            if ((row < 0) || ((row + PIECES_TO_WIN - 1) >= BOARD_SIZE)) { return null; }
+
+            int score = 0;
+            for (int i = 0; i < PIECES_TO_WIN; i++)
+            {
+                if ((row + i) >= BOARD_SIZE) { return null; }
+
+                score += board[row + i][column].getScore();
+            }
+
+            return GomokoPiece.fromTotalScore(score);
+        }
+
+        @Nullable
+        private GomokoPiece checkDiagonalLeftWinner(int row, int column)
+        {
+            if ((row < 0) || ((row + PIECES_TO_WIN - 1) >= BOARD_SIZE) || ((column - PIECES_TO_WIN + 1) < 0) || (column >= BOARD_SIZE)) { return null; }
+
+            int score = 0;
+            for (int i = 0; i < PIECES_TO_WIN; i++)
+            {
+                score += board[row + i][column - i].getScore();
+            }
+
+            return GomokoPiece.fromTotalScore(score);
+        }
+
+        @Nullable
+        private GomokoPiece checkDiagonalRightWinner(int row, int column)
+        {
+            if ((row < 0) || ((row + PIECES_TO_WIN - 1) >= BOARD_SIZE) || (column < 0) || ((column + PIECES_TO_WIN - 1) >= BOARD_SIZE)) { return null; }
+
+            int score = 0;
+            for (int i = 0; i < PIECES_TO_WIN; i++)
+            {
+                score += board[row + i][column + i].getScore();
+            }
+
+            return GomokoPiece.fromTotalScore(score);
+        }
+
+        /**
+         * Print the Gomoko game board to standard output.
+         */
         public void printBoard()
         {
             System.out.println();
@@ -226,64 +349,6 @@ public class Gomoko
             }
 
             System.out.println();
-        }
-
-        @Nullable
-        private GomokoPiece checkHorizontalWinner(int row, int column)
-        {
-            if ((column < 0) || ((column + PIECES_TO_WIN - 1) >= BOARD_SIZE)) { return null; }
-
-            int score = 0;
-            for (int i = 0; i < PIECES_TO_WIN; i++)
-            {
-                score += board[row][column + i].getScore();
-            }
-
-            return GomokoPiece.fromWinningScore(score);
-        }
-
-        @Nullable
-        private GomokoPiece checkVerticalWinner(int row, int column)
-        {
-            if ((row < 0) || ((row + PIECES_TO_WIN - 1) >= BOARD_SIZE)) { return null; }
-
-            int score = 0;
-            for (int i = 0; i < PIECES_TO_WIN; i++)
-            {
-                if ((row + i) >= BOARD_SIZE) { return null; }
-
-                score += board[row + i][column].getScore();
-            }
-
-            return GomokoPiece.fromWinningScore(score);
-        }
-
-        @Nullable
-        private GomokoPiece checkDiagonalLeftWinner(int row, int column)
-        {
-            if ((row < 0) || (column < 0)) { return null; }
-
-            int score = 0;
-            for (int i = 0; i < PIECES_TO_WIN; i++)
-            {
-                score += board[row + i][column + (PIECES_TO_WIN - i - 1)].getScore();
-            }
-
-            return GomokoPiece.fromWinningScore(score);
-        }
-
-        @Nullable
-        private GomokoPiece checkDiagonalRightWinner(int row, int column)
-        {
-            if ((row < 0) || (column < 0)) { return null; }
-
-            int score = 0;
-            for (int i = 0; i < PIECES_TO_WIN; i++)
-            {
-                score += board[row + i][column + i].getScore();
-            }
-
-            return GomokoPiece.fromWinningScore(score);
         }
     }
 }
