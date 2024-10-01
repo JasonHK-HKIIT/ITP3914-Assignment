@@ -6,7 +6,7 @@ package dev.jasonhk.hkiit.itp3914.assignment;
 
 import java.util.Scanner;
 
-public class Gomoko
+public final class Gomoko
 {
     /**
      * The size of the {@link GomokoBoard}.
@@ -20,8 +20,6 @@ public class Gomoko
 
     /**
      * The entrypoint of the application.
-     * 
-     * @param args The command line arguments.
      */
     public static void main(String[] args)
     {

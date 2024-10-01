@@ -54,6 +54,7 @@ final class GomokoBoard
      */
     public boolean isFull()
     {
+        // This is not supposed to happen, just a safeguard.
         if (placedCount > SLOTS_COUNT)
         {
             throw new IllegalStateException(String.format("placedCount should never be larger than %d.", SLOTS_COUNT));
@@ -98,8 +99,10 @@ final class GomokoBoard
      * 
      * @return The winning piece if the move ends the game, {@code null} otherwise.
      */
+    @Nullable
     public GomokoPiece placePiece(int row, int column)
     {
+        // This is not supposed to happen, just a safeguard.
         if (board[row][column] != GomokoPiece.EMPTY)
         {
             throw new IllegalArgumentException(String.format("board[%d][%d] was not empty.", row, column));
@@ -108,9 +111,12 @@ final class GomokoBoard
         // Place the Gomoko piece and switch the piece to be placed next.
         board[row][column] = currentPiece;
         currentPiece = (currentPiece == GomokoPiece.BLACK) ? GomokoPiece.WHITE : GomokoPiece.BLACK;
-placedCount++;
+        placedCount++;
 
-        // Check every possible combinations that include this coordinate.
+        // Check every possible combinations that include this slot.
+        //
+        // The slots given to the check*Winner() methods were in reverse to the direction those
+        // methods checking winner.
         for (int i = 0; i < PIECES_TO_WIN; i++)
         {
             GomokoPiece winner;
@@ -131,6 +137,12 @@ placedCount++;
         return null;
     }
 
+    /**
+     * Check whether from the given slot and the consecutive {@link dev.jasonhk.hkiit.itp3914.assignment.Gomoko#PIECES_TO_WIN PIECES_TO_WIN}
+     * slots to the right have the same Gomoko piece, thus winning the game.
+     * 
+     * @return If so, the winning piece. Otherwise, {@code null}.
+     */
     @Nullable
     private GomokoPiece checkHorizontalWinner(int row, int column)
     {
@@ -145,6 +157,12 @@ placedCount++;
         return GomokoPiece.fromTotalScore(score);
     }
 
+    /**
+     * Check whether from the given slot and the consecutive {@link dev.jasonhk.hkiit.itp3914.assignment.Gomoko#PIECES_TO_WIN PIECES_TO_WIN}
+     * slots to the bottom have the same Gomoko piece, thus winning the game.
+     * 
+     * @return If so, the winning piece. Otherwise, {@code null}.
+     */
     @Nullable
     private GomokoPiece checkVerticalWinner(int row, int column)
     {
@@ -161,6 +179,12 @@ placedCount++;
         return GomokoPiece.fromTotalScore(score);
     }
 
+    /**
+     * Check whether from the given slot and the consecutive {@link dev.jasonhk.hkiit.itp3914.assignment.Gomoko#PIECES_TO_WIN PIECES_TO_WIN}
+     * slots to the bottom left in 45° diagonal have the same Gomoko piece, thus winning the game.
+     * 
+     * @return If so, the winning piece. Otherwise, {@code null}.
+     */
     @Nullable
     private GomokoPiece checkDiagonalLeftWinner(int row, int column)
     {
@@ -178,6 +202,12 @@ placedCount++;
         return GomokoPiece.fromTotalScore(score);
     }
 
+    /**
+     * Check whether from the given slot and the consecutive {@link dev.jasonhk.hkiit.itp3914.assignment.Gomoko#PIECES_TO_WIN PIECES_TO_WIN}
+     * slots to the bottom right in 45° diagonal have the same Gomoko piece, thus winning the game.
+     * 
+     * @return If so, the winning piece. Otherwise, {@code null}.
+     */
     @Nullable
     private GomokoPiece checkDiagonalRightWinner(int row, int column)
     {
@@ -206,16 +236,19 @@ placedCount++;
         {
             if (i < BOARD_SIZE)
             {
+                // Row number and vertical border
                 System.out.printf("%" + PIECE_WIDTH + "d |", i);
             }
             else
             {
+                // Horizontal border
                 System.out.println(" ".repeat(PIECE_WIDTH + 1) + "+" + "-".repeat((PIECE_WIDTH + 1) * BOARD_SIZE));
                 System.out.print(" ".repeat(PIECE_WIDTH + 2));
             }
 
             for (int j = 0; j < BOARD_SIZE; j++)
             {
+                // Gomoko pieces or column numbers
                 System.out.printf(" %" + PIECE_WIDTH + "s", (i < BOARD_SIZE) ? board[i][j].getPiece() : Integer.toString(j));
                 if (j == (BOARD_SIZE - 1)) { System.out.println(); }
             }
