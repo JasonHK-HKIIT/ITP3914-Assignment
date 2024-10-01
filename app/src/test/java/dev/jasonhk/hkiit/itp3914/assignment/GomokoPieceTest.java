@@ -2,11 +2,12 @@ package dev.jasonhk.hkiit.itp3914.assignment;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assumptions.*;
 
 class GomokoPieceTest
 {
     @Test
-    void getPieceIsCorrect()
+    void getPieceIsExpected()
     {
         assertEquals(GomokoPiece.EMPTY.getPiece(), "0");
         assertEquals(GomokoPiece.BLACK.getPiece(), "1");
@@ -14,7 +15,7 @@ class GomokoPieceTest
     }
 
     @Test
-    void getScoreIsCorrect()
+    void getScoreIsExpected()
     {
         assertEquals(GomokoPiece.EMPTY.getScore(), 0);
         assertEquals(GomokoPiece.BLACK.getScore(), -1);
@@ -22,8 +23,11 @@ class GomokoPieceTest
     }
 
     @Test
-    void fromTotalScoreIsCorrect()
+    @SuppressWarnings("all")
+    void fromTotalScoreIsExpected()
     {
+        assumeTrue(Gomoko.PIECES_TO_WIN == 4);
+
         assertEquals(GomokoPiece.fromTotalScore(-4), GomokoPiece.BLACK);
         assertEquals(GomokoPiece.fromTotalScore(-3), null);
         assertEquals(GomokoPiece.fromTotalScore(-2), null);
