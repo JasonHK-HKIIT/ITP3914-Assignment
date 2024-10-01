@@ -19,11 +19,6 @@ public class Gomoko
     static final int PIECES_TO_WIN = 4;
 
     /**
-     * The width needed to display a {@link GomokoPiece}.
-     */
-    static final int PIECE_WIDTH = Integer.toString(BOARD_SIZE - 1).length();
-
-    /**
      * The entrypoint of the application.
      * 
      * @param args The command line arguments.

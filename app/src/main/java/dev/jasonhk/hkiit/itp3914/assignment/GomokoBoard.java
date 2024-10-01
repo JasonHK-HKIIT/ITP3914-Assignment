@@ -2,7 +2,6 @@ package dev.jasonhk.hkiit.itp3914.assignment;
 
 import static dev.jasonhk.hkiit.itp3914.assignment.Gomoko.BOARD_SIZE;
 import static dev.jasonhk.hkiit.itp3914.assignment.Gomoko.PIECES_TO_WIN;
-import static dev.jasonhk.hkiit.itp3914.assignment.Gomoko.PIECE_WIDTH;
 
 import javax.annotation.Nullable;;
 
@@ -15,6 +14,11 @@ final class GomokoBoard
      * The total cells count for the Gomoko game board.
      */
     private static final int SLOTS_COUNT = BOARD_SIZE * BOARD_SIZE;
+
+    /**
+     * The width needed to display a {@link GomokoPiece}.
+     */
+    private static final int PIECE_WIDTH = Integer.toString(BOARD_SIZE - 1).length();
 
     /**
      * The Gomoko game board matrix.
@@ -82,7 +86,7 @@ final class GomokoBoard
     }
 
     /**
-     * The next {@code GomokoPiece} to be placed.
+     * The next Gomoko piece to be placed.
      */
     public GomokoPiece getCurrentPiece()
     {
@@ -159,7 +163,10 @@ final class GomokoBoard
     @Nullable
     private GomokoPiece checkDiagonalLeftWinner(int row, int column)
     {
-        if ((row < 0) || ((row + PIECES_TO_WIN - 1) >= BOARD_SIZE) || ((column - PIECES_TO_WIN + 1) < 0) || (column >= BOARD_SIZE)) { return null; }
+        if ((row < 0) || ((row + PIECES_TO_WIN - 1) >= BOARD_SIZE) || ((column - PIECES_TO_WIN + 1) < 0) || (column >= BOARD_SIZE))
+        {
+            return null;
+        }
 
         int score = 0;
         for (int i = 0; i < PIECES_TO_WIN; i++)
@@ -173,7 +180,10 @@ final class GomokoBoard
     @Nullable
     private GomokoPiece checkDiagonalRightWinner(int row, int column)
     {
-        if ((row < 0) || ((row + PIECES_TO_WIN - 1) >= BOARD_SIZE) || (column < 0) || ((column + PIECES_TO_WIN - 1) >= BOARD_SIZE)) { return null; }
+        if ((row < 0) || ((row + PIECES_TO_WIN - 1) >= BOARD_SIZE) || (column < 0) || ((column + PIECES_TO_WIN - 1) >= BOARD_SIZE))
+        {
+            return null;
+        }
 
         int score = 0;
         for (int i = 0; i < PIECES_TO_WIN; i++)
