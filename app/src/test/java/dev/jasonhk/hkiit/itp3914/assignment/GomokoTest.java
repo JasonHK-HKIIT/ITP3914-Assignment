@@ -9,9 +9,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class GomokoTest
 {
     @Test
-    void appHasAGreeting()
+    void boardSizeIsValid()
     {
-        Gomoko classUnderTest = new Gomoko();
-        //assertNotNull(classUnderTest.getGreeting(), "app should have a greeting");
+        assertTrue(Gomoko.BOARD_SIZE >= Gomoko.PIECES_TO_WIN);
     }
 }
