@@ -1,4 +1,10 @@
-package dev.jasonhk.hkiit.itp3914.assignment;
+/**
+ * GomokoPiece.java - Part of a Gomoko game.
+ * 
+ * @author Kwok Chi Leong (240141706, Class 1A)
+ */
+
+ package dev.jasonhk.hkiit.itp3914.assignment;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

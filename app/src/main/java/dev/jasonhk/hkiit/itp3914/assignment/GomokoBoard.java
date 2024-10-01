@@ -1,4 +1,10 @@
-package dev.jasonhk.hkiit.itp3914.assignment;
+/**
+ * GomokoBoard.java - Part of a Gomoko game.
+ * 
+ * @author Kwok Chi Leong (240141706, Class 1A)
+ */
+
+ package dev.jasonhk.hkiit.itp3914.assignment;
 
 import static dev.jasonhk.hkiit.itp3914.assignment.Gomoko.BOARD_SIZE;
 import static dev.jasonhk.hkiit.itp3914.assignment.Gomoko.PIECES_TO_WIN;

@@ -1,4 +1,6 @@
 /**
+ * Gomoko.java - Part of a Gomoko game.
+ * 
  * @author Kwok Chi Leong (240141706, Class 1A)
  */
 
