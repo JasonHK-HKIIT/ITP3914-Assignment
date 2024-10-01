@@ -6,8 +6,11 @@ package dev.jasonhk.hkiit.itp3914.assignment;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-class GomokoTest {
-    @Test void appHasAGreeting() {
+class GomokoTest
+{
+    @Test
+    void appHasAGreeting()
+    {
         Gomoko classUnderTest = new Gomoko();
         //assertNotNull(classUnderTest.getGreeting(), "app should have a greeting");
     }
