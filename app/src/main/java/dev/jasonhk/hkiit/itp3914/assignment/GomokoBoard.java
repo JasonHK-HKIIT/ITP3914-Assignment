@@ -108,6 +108,7 @@ final class GomokoBoard
         // Place the Gomoko piece and switch the piece to be placed next.
         board[row][column] = currentPiece;
         currentPiece = (currentPiece == GomokoPiece.BLACK) ? GomokoPiece.WHITE : GomokoPiece.BLACK;
+placedCount++;
 
         // Check every possible combinations that include this coordinate.
         for (int i = 0; i < PIECES_TO_WIN; i++)
