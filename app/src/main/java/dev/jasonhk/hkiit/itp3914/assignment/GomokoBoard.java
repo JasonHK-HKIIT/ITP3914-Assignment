@@ -6,10 +6,10 @@
 
  package dev.jasonhk.hkiit.itp3914.assignment;
 
+import javax.annotation.Nullable;
+
 import static dev.jasonhk.hkiit.itp3914.assignment.Gomoko.BOARD_SIZE;
 import static dev.jasonhk.hkiit.itp3914.assignment.Gomoko.PIECES_TO_WIN;
-
-import javax.annotation.Nullable;;
 
 /**
  * The Gomoko game board.
