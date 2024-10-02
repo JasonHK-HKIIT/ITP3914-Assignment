@@ -144,7 +144,7 @@ final class GomokoBoard
     }
 
     /**
-     * Check whether from the given slot and the consecutive {@link dev.jasonhk.hkiit.itp3914.assignment.Gomoko#PIECES_TO_WIN PIECES_TO_WIN}
+     * Check whether from the given slot and the consecutive {@link Gomoko#PIECES_TO_WIN PIECES_TO_WIN}
      * slots to the right have the same Gomoko piece, thus winning the game.
      * 
      * @return If so, the winning piece. Otherwise, {@code null}.
@@ -164,7 +164,7 @@ final class GomokoBoard
     }
 
     /**
-     * Check whether from the given slot and the consecutive {@link dev.jasonhk.hkiit.itp3914.assignment.Gomoko#PIECES_TO_WIN PIECES_TO_WIN}
+     * Check whether from the given slot and the consecutive {@link Gomoko#PIECES_TO_WIN PIECES_TO_WIN}
      * slots to the bottom have the same Gomoko piece, thus winning the game.
      * 
      * @return If so, the winning piece. Otherwise, {@code null}.
