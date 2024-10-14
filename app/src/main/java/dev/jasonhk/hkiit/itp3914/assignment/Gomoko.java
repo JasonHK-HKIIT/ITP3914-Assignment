@@ -32,7 +32,7 @@ public final class Gomoko
         var board = new GomokoBoard();
         board.printBoard();
 
-        while (!board.isFull())
+        while (true)
         {
             // Announce the game turn.
             System.out.printf("Player %s's turn.%n", board.getCurrentPiece().getPiece());
