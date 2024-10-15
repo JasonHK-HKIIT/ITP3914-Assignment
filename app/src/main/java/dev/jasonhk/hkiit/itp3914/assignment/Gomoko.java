@@ -58,7 +58,7 @@ public final class Gomoko
             else if (board.isFull())
             {
                 System.out.println("It's a draw!");
-                break; // This line is actually useless.
+                break; //  Break out of the loop when the game was ended.
             }
         }
 
