@@ -186,7 +186,7 @@ final class GomokoBoard
     }
 
     /**
-     * Check whether from the given slot and the consecutive {@link dev.jasonhk.hkiit.itp3914.assignment.Gomoko#PIECES_TO_WIN PIECES_TO_WIN}
+     * Check whether from the given slot and the consecutive {@link Gomoko#PIECES_TO_WIN PIECES_TO_WIN}
      * slots to the bottom left in 45° diagonal have the same Gomoko piece, thus winning the game.
      * 
      * @return If so, the winning piece. Otherwise, {@code null}.
@@ -209,7 +209,7 @@ final class GomokoBoard
     }
 
     /**
-     * Check whether from the given slot and the consecutive {@link dev.jasonhk.hkiit.itp3914.assignment.Gomoko#PIECES_TO_WIN PIECES_TO_WIN}
+     * Check whether from the given slot and the consecutive {@link Gomoko#PIECES_TO_WIN PIECES_TO_WIN}
      * slots to the bottom right in 45° diagonal have the same Gomoko piece, thus winning the game.
      * 
      * @return If so, the winning piece. Otherwise, {@code null}.
@@ -256,8 +256,9 @@ final class GomokoBoard
             {
                 // Gomoko pieces or column numbers
                 System.out.printf(" %" + PIECE_WIDTH + "s", (i < BOARD_SIZE) ? board[i][j].getPiece() : Integer.toString(j));
-                if (j == (BOARD_SIZE - 1)) { System.out.println(); }
             }
+
+            System.out.println();
         }
 
         System.out.println();
