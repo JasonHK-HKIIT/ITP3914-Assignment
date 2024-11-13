@@ -48,6 +48,7 @@ public final class Gomoko
             }
             catch (InputMismatchException ex)
             {
+                // Throw away non-numeric input and retry.
                 scanner.nextLine();
                 System.err.println("Invalid input. Try again.");
                 continue;
