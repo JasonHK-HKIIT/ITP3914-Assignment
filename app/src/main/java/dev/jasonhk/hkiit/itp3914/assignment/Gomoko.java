@@ -6,6 +6,7 @@
 
 package dev.jasonhk.hkiit.itp3914.assignment;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public final class Gomoko
@@ -39,8 +40,18 @@ public final class Gomoko
 
             // Receive inputs.
             System.out.print("Enter row and column (e.g., 0 1): ");
-            int row = scanner.nextInt();
-            int column = scanner.nextInt();
+            int row, column;
+            try
+            {
+                row = scanner.nextInt();
+                column = scanner.nextInt();
+            }
+            catch (InputMismatchException ex)
+            {
+                scanner.nextLine();
+                System.err.println("Invalid input. Try again.");
+                continue;
+            }
 
             // Validate inputs, retry when invalid, otherwise place the piece.
             if (!board.isValidMove(row, column)) { continue; }
