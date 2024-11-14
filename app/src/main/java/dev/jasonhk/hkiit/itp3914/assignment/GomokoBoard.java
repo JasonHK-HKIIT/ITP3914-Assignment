@@ -4,7 +4,7 @@
  * @author Kwok Chi Leong (240141706, Class 1A)
  */
 
- package dev.jasonhk.hkiit.itp3914.assignment;
+package dev.jasonhk.hkiit.itp3914.assignment;
 
 import javax.annotation.Nullable;
 
